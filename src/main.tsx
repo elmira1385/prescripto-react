@@ -1,15 +1,22 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Home from './pages/Home.tsx';
+import MainLayout from './components/Layout/MainLayout.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component:App,
+    Component:MainLayout,
+    children:[
+      {
+        index:true,
+        Component:Home
+      }
+    ]
   },
 ]);
 
