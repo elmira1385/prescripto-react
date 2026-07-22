@@ -1,10 +1,12 @@
 @import "tailwindcss";
-body{
-    height: 100vh;
-
+body {
+  height: 100vh;
 }
-:root{
-    height: 100%;
-    padding-right: 1rem;
-    padding-left: 1rem;
+:root {
+  height: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+@theme {
+    --color-primary: #5f6fff;
 }
