@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import icon from "../../images/icon_header.svg";
+import { NavLink, useNavigate } from "react-router";
 
 const Header = () => {
   const [isOpenHeader, setIsOpenHeader] = useState(false);
-  const [active, setActive] = useState<
-    "home" | "allProducts" | "about" | "content"
-  >("home");
+
   return (
     <header className="flex py-4 justify-between items-center border-b">
       <div>
@@ -43,39 +42,44 @@ const Header = () => {
         <div
           className={`fixed sm:inline-flex md:inline-flex lg:inline-flex xl:hidden  flex flex-col gap-6 items-center  z-50 bg-white  w-full h-full top-15  p-4 transition-all duration-300 ${isOpenHeader ? "right-0" : "-right-full"}`}
         >
-          <ul className="flex flex-col justify-center items-center gap-6 *:font-bold  *:text-[16px] *:cursor-pointer">
-            <li
-              onClick={() => {
-                setActive("home");
-              }}
-              className={`px-4 py-2 rounded-md ${active === "home" && "bg-primary text-white"}`}
+          <ul className="flex flex-col justify-center items-center gap-6 *:font-bold  *:text-[16px] *:cursor-pointer *:px-4 *:py-2 *:rounded-md">
+            <NavLink
+              to="/"
+              end
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "bg-primary text-white" : ""
+              }
             >
               HOME
-            </li>
-            <li
-              onClick={() => {
-                setActive("allProducts");
-              }}
-              className={`px-4 py-2 rounded-md ${active === "allProducts" && "bg-primary text-white"}`}
+            </NavLink>
+            <NavLink
+              to="/AllDoctors"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "bg-primary text-white" : ""
+              }
             >
-              ALL PRODUCTS
-            </li>
-            <li
-              onClick={() => {
-                setActive("about");
-              }}
-              className={`px-4 py-2 rounded-md ${active === "about" && "bg-primary text-white"}`}
+              ALL Doctors
+            </NavLink>
+            <NavLink
+              to="/About"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "bg-primary text-white" : ""
+              }
             >
               ABOUT
-            </li>
-            <li
-              onClick={() => {
-                setActive("content");
-              }}
-              className={`px-4 py-2 rounded-md ${active === "content" && "bg-primary text-white"}`}
+            </NavLink>
+            <NavLink
+              to="/Content"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "bg-primary text-white" : ""
+              }
             >
               CONTENT
-            </li>
+            </NavLink>
           </ul>
         </div>
       )}

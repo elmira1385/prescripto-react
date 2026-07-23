@@ -7,6 +7,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home.tsx';
 import MainLayout from './components/Layout/MainLayout.tsx';
 import Login from './pages/Login.tsx';
+import AllDoctors from './pages/AllDoctors.tsx';
+import About from './pages/About.tsx';
+import Content from './pages/Content.tsx';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +23,19 @@ const router = createBrowserRouter([
       {
         path:"/login",
         Component:Login
-      }
+      },
+      {
+        path:"/AllDoctors",
+        Component:AllDoctors
+      },
+      {
+        path:"/About",
+        Component:About
+      },
+      {
+        path:"/Content",
+        Component:Content
+      },
     ]
   },
 ]);

@@ -1,7 +1,9 @@
 
+import { useNavigate } from "react-router";
 import bookAppointment from "../../images/bookappoiment.png";
 
 const BookAppointment = () => {
+  const route=useNavigate()
   return (
     <div className="flex justify-between items-start bg-primary rounded-lg  px-6 sm:px-10 md:px-14 lg:px-12 ">
       <div className="flex flex-col justify-start items-start gap-8 py-8 sm:py-10 md:py-16 lg:py-24 lg:pl-5">
@@ -9,7 +11,9 @@ const BookAppointment = () => {
           <p>Book Appointment</p>
           <p>With 100+ Trusted Doctors</p>
         </div>
-        <button className="bg-white text-sm sm:text-base text-[#595959] px-8 py-3 rounded-full  hover:scale-105 transition-all ">
+        <button onClick={()=>{
+        route("/login")
+        }} className="bg-white text-sm sm:text-base text-[#595959] px-8 py-3 rounded-full  hover:scale-105 transition-all ">
           Create account
         </button>
       </div>
