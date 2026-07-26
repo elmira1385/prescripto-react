@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from "../api/axios";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ interface IRegisterOrLoginResponse {
   token: string;
 }
 const Login = () => {
+  const queryClient = useQueryClient();
   const [isRegisterOpen, setIsResterOpen] = useState(true);
   const route = useNavigate();
   //signUp
@@ -37,11 +38,14 @@ const Login = () => {
   } = useMutation({
     mutationKey: ["register"],
     mutationFn: async (user: ILoginOrREgister) => {
-      const { data } = await api.post<IRegisterOrLoginResponse>("/api/user/register", {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      });
+      const { data } = await api.post<IRegisterOrLoginResponse>(
+        "/api/user/register",
+        {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+        },
+      );
       return data;
     },
   });
@@ -75,10 +79,13 @@ const Login = () => {
   } = useMutation({
     mutationKey: ["login"],
     mutationFn: async (user: ILoginOrREgister) => {
-      const { data } = await api.post<IRegisterOrLoginResponse>("/api/user/login", {
-        email: user.email,
-        password: user.password,
-      });
+      const { data } = await api.post<IRegisterOrLoginResponse>(
+        "/api/user/login",
+        {
+          email: user.email,
+          password: user.password,
+        },
+      );
       return data;
     },
   });
@@ -86,12 +93,15 @@ const Login = () => {
   useEffect(() => {
     if (loginIsSuccess) {
       localStorage.setItem("token", loginData.token);
+      queryClient.refetchQueries({
+        queryKey: ["getUser"],
+      });
       route("/");
       toast.success("you are login");
     } else if (loginIsError) {
       toast.error("please check your information");
     }
-  }, [loginIsSuccess, loginIsError]);
+  }, [loginIsSuccess, loginIsError,queryClient]);
   return (
     <>
       {isRegisterOpen ? (
