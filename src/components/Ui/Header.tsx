@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import icon from "../../images/icon_header.svg";
 import { NavLink } from "react-router";
 import { useQuery } from "@tanstack/react-query";
