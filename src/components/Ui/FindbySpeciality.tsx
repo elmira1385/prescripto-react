@@ -10,7 +10,7 @@ import item6 from "../../images/item6ofcategory.svg";
 import { useFilter } from "../../store/useFilter";
 import { useNavigate } from "react-router";
 const FindbySpeciality = () => {
-  const { setFilter } = useFilter();
+  const { setFilter,setIsFilterOpen } = useFilter();
   const route=useNavigate()
   const items: IItemOfCategory[] = [
     {
@@ -61,6 +61,7 @@ const FindbySpeciality = () => {
             image={item.image}
             onClick={() => {
               setFilter(item.title);
+              setIsFilterOpen(true)
               route("AllDoctors")
             }}
           />

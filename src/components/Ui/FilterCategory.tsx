@@ -2,21 +2,20 @@ import React, { useState } from "react";
 import { useFilter } from "../../store/useFilter";
 
 const FilterCategory = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { setFilter, filter } = useFilter();
+  const { setFilter, filter  ,isFilterOpen,setIsFilterOpen} = useFilter();
 
   return (
     <div className="flex flex-col gap-4 i">
       <p>Browse through the doctors specia</p>
       <button
         onClick={() => {
-          setIsOpen((prev) => !prev);
+          setIsFilterOpen(!isFilterOpen);
         }}
-        className={`py-1 px-3 border self-start ${isOpen && "bg-primary text-white"} border-gray-300 rounded-md text-sm  transition-all `}
+        className={`py-1 px-3 border self-start ${isFilterOpen && "bg-primary text-white"} border-gray-300 rounded-md text-sm  transition-all `}
       >
         Filters
       </button>
-      {isOpen && (
+      {isFilterOpen && (
         <div className="flex flex-col gap-4 text-sm text-gray-600 ">
           <p
             onClick={() => {
