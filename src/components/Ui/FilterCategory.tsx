@@ -3,7 +3,6 @@ import { useFilter } from "../../store/useFilter";
 
 const FilterCategory = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [active, setActive] = useState(false);
   const { setFilter, filter } = useFilter();
 
   return (
@@ -12,9 +11,8 @@ const FilterCategory = () => {
       <button
         onClick={() => {
           setIsOpen((prev) => !prev);
-          setActive((prev) => !prev);
         }}
-        className={`py-1 px-3 border self-start ${active && "bg-primary text-white"} border-gray-300 rounded-md text-sm  transition-all `}
+        className={`py-1 px-3 border self-start ${isOpen && "bg-primary text-white"} border-gray-300 rounded-md text-sm  transition-all `}
       >
         Filters
       </button>
