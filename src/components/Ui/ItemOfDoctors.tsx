@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import type { IDoctor } from "../../api/listDoctors";
 
 
@@ -5,10 +6,13 @@ export interface IProps {
   data: IDoctor[];
 }
 const ItemOfDoctors = ({ data }: IProps) => {
+  const route=useNavigate()
   return (
     <>
       {data?.map((item) => (
-        <li
+        <li onClick={()=>{
+        route(`/${item._id}`)
+        }}
           key={item._id}
           className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer  transition-all duration-500"
         >

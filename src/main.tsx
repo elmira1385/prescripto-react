@@ -11,6 +11,7 @@ import AllDoctors from "./pages/AllDoctors.tsx";
 import About from "./pages/About.tsx";
 import Content from "./pages/Content.tsx";
 import { ToastContainer } from "react-toastify";
+import DoctorDatailes from "./pages/DoctorDatailes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/Content",
         Component: Content,
+      },
+      {
+        path: "/:id",
+        Component:DoctorDatailes,
       },
     ],
   },
