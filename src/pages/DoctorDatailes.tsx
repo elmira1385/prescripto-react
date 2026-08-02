@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  {  useState } from "react";
 import { useParams } from "react-router";
 import { useDoctorList } from "../api/listDoctors";
 import tik from "../images/tik.svg";
@@ -28,7 +28,7 @@ const DoctorDatailes = () => {
   const today = new Date();
   for (let i = 0; i < 7; i++) {
     const date = new Date(today);
-
+// beacuse i start from 0 that is why for example today  is 3 there for 0+3=3
     date.setDate(today.getDate() + i);
 
     dates.push(
