@@ -15,7 +15,7 @@ const DoctorDatailes = () => {
   const { id } = useParams();
   const { data } = useDoctorList();
   const doctorDateiels = data?.find((item) => item._id === id);
-  const sameCtegory = data?.filter(
+  const sameCategory = data?.filter(
     (item) => item.speciality === doctorDateiels?.speciality,
   );
   const token = localStorage.getItem("token");
@@ -28,7 +28,7 @@ const DoctorDatailes = () => {
   const today = new Date();
   for (let i = 0; i < 7; i++) {
     const date = new Date(today);
-// beacuse i start from 0 that is why for example today  is 3 there for 0+3=3
+// because start from 0 that is why for example today  is 3 there for 0+3=3
     date.setDate(today.getDate() + i);
 
     dates.push(
@@ -79,7 +79,7 @@ const DoctorDatailes = () => {
       return data;
     },
   });
-  if (!sameCtegory) {
+  if (!sameCategory) {
     return <div>Loading...</div>;
   }
 
@@ -192,7 +192,7 @@ const DoctorDatailes = () => {
           Simply browse through our extensive list of trusted doctors.
         </p>
         <ul className="flex flex-col gap-6">
-          <ItemOfDoctors data={sameCtegory} />
+          <ItemOfDoctors data={sameCategory} />
         </ul>
       </div>
     </div>
