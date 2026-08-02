@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDoctorList } from "../api/listDoctors";
-import tik from "../images/tik.svg"
+import tik from "../images/tik.svg";
 import ItemOfDoctors from "../components/Ui/ItemOfDoctors";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../api/axios";
+import { toast } from "react-toastify";
+interface IBookingUser {
+  docId: string;
+  slotDate: string;
+  slotTime: string;
+}
 const DoctorDatailes = () => {
   const { id } = useParams();
   const { data } = useDoctorList();
@@ -10,7 +18,91 @@ const DoctorDatailes = () => {
   const sameCtegory = data?.filter(
     (item) => item.speciality === doctorDateiels?.speciality,
   );
-  if (!sameCtegory) return
+  const token = localStorage.getItem("token");
+
+  // for booking
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  //days
+  const dates = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today);
+
+    date.setDate(today.getDate() + i);
+
+    dates.push(
+      `${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}`,
+    );
+  }
+
+  //hours
+  const allTimes = [
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "1:00 PM",
+  ];
+  const bookedTimes = doctorDateiels?.slots_booked?.[selectedDate] || [];
+  const times = allTimes.filter((time) => !bookedTimes.includes(time));
+  //become date in days
+  const getDayName = (date: string) => {
+    const [day, month, year] = date.split("_");
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+    ).toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["booking"],
+    mutationFn: async (user: IBookingUser) => {
+      const { data } = await api.post<IBookingUser>(
+        "/api/user/book-appointment",
+        {
+          docId: user.docId,
+          slotDate: user.slotDate,
+          slotTime: user.slotTime,
+        },
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
+      return data;
+    },
+  });
+  if (!sameCtegory) {
+    return <div>Loading...</div>;
+  }
+
+  if (!doctorDateiels) {
+    return <div>Doctor not found</div>;
+  }
+  const handleBooking = () => {
+    if (!selectedDate || !selectedTime) {
+      toast.info("please select day and time");
+      return;
+    }
+    if (!token) {
+      toast.error("please login or signup");
+      return;
+    }
+
+    mutate({
+      docId: doctorDateiels?._id,
+      slotDate: selectedDate,
+      slotTime: selectedTime,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-10 pt-6">
       <div className="flex flex-col sm:flex-row gap-4">
@@ -23,14 +115,13 @@ const DoctorDatailes = () => {
         <div className="flex flex-col gap-4 border border-[#ADADAD] rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 -mt-20 sm:mt-0">
           <p className="flex items-center gap-2 text-3xl font-medium text-gray-700">
             {doctorDateiels?.name}
-            <img
-              className="w-5"
-              src={tik}
-              alt="tik"
-            />
+            <img className="w-5" src={tik} alt="tik" />
           </p>
           <div className="flex items-center gap-2  text-gray-600">
-            <p>{doctorDateiels?.degree} - <span>{doctorDateiels?.speciality}</span></p>
+            <p>
+              {doctorDateiels?.degree} -{" "}
+              <span>{doctorDateiels?.speciality}</span>
+            </p>
             <button className="py-0.5 px-2 border text-xs rounded-full">
               {doctorDateiels?.experience}
             </button>
@@ -44,22 +135,65 @@ const DoctorDatailes = () => {
                 alt="!"
               />
             </p>
-            <p className="text-sm text-gray-600">
-             {doctorDateiels?.about}
-            </p>
+            <p className="text-sm text-gray-600">{doctorDateiels?.about}</p>
           </div>
           <p className="text-gray-600 font-medium ">
-            Appointment fee: <span className="text-gray-800">${doctorDateiels?.fees}</span>
+            Appointment fee:{" "}
+            <span className="text-gray-800">${doctorDateiels?.fees}</span>
           </p>
         </div>
       </div>
-      <div>booking</div>
+      <div className="flex flex-col gap-4 justify-start items-start">
+        <p>Booking slots</p>
+        <div className="flex sm:justify-center gap-4 pt-5 w-full overflow-x-scroll scrollbar-none">
+          {dates.map((eachData) => (
+            <button
+              key={eachData}
+              type="button"
+              onClick={() => {
+                setSelectedDate(eachData);
+              }}
+              className={` px-4 py-3 rounded-full flex flex-col border border-gray-400 ${selectedDate === eachData ? "bg-primary text-white" : "bg-white"}`}
+            >
+              <span className="font-semibold">{getDayName(eachData)}</span>
+
+              <span>{eachData}</span>
+            </button>
+          ))}
+        </div>
+        {selectedDate && (
+          <div className="flex sm:justify-center gap-4 pt-5 w-full overflow-x-scroll scrollbar-none">
+            {times.map((time, index) => (
+              <button
+                key={`${time}-${index}`}
+                type="button"
+                onClick={() => {
+                  setSelectedTime(time);
+                }}
+                className={`px-4 py-2 rounded-full border border-gray-400 ${selectedTime === time ? "bg-primary text-white" : "bg-white"}`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button
+          disabled={isPending}
+          onClick={handleBooking}
+          className="bg-primary text-white px-4 py-2 rounded-full"
+        >
+          Book an appointment
+        </button>
+      </div>
       <div className="flex flex-col gap-4 justify-center items-center">
-       <p className="text-3xl font-semibold">Related Doctors</p>
-       <p className="text-center text-sm text-gray-600">Simply browse through our extensive list of trusted doctors.</p>
-       <ul className="flex flex-col gap-6">
-        <ItemOfDoctors data={sameCtegory}/>
-       </ul>
+        <p className="text-3xl font-semibold">Related Doctors</p>
+        <p className="text-center text-sm text-gray-600">
+          Simply browse through our extensive list of trusted doctors.
+        </p>
+        <ul className="flex flex-col gap-6">
+          <ItemOfDoctors data={sameCtegory} />
+        </ul>
       </div>
     </div>
   );

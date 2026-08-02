@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/:id",
-        Component:DoctorDatailes,
+        Component: DoctorDatailes,
       },
     ],
   },
