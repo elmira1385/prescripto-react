@@ -63,13 +63,13 @@ const MyAppoiment = () => {
       return data;
     },
   });
-  if (!data) return <p>loading....</p>;
   useEffect(()=>{
-  if(isSuccess){
-    refetch()
-    toast.success("Appointment cancelled")
-  }
-  },[isSuccess])
+      if(isSuccess){
+          refetch()
+          toast.success("Appointment cancelled")
+        }
+    },[isSuccess])
+    if (!data) return <p>loading....</p>;
 
 
   const sortItem=[...data].sort((a,b)=>Number(a.cancelled)-Number(b.cancelled))
