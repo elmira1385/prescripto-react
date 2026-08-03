@@ -1,5 +1,5 @@
-import  {  useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { Route, useNavigate, useParams } from "react-router";
 import { useDoctorList } from "../api/listDoctors";
 import tik from "../images/tik.svg";
 import ItemOfDoctors from "../components/Ui/ItemOfDoctors";
@@ -14,6 +14,7 @@ interface IBookingUser {
 const DoctorDatailes = () => {
   const { id } = useParams();
   const { data } = useDoctorList();
+  const route = useNavigate();
   const doctorDateiels = data?.find((item) => item._id === id);
   const sameCategory = data?.filter(
     (item) => item.speciality === doctorDateiels?.speciality,
@@ -28,7 +29,7 @@ const DoctorDatailes = () => {
   const today = new Date();
   for (let i = 0; i < 7; i++) {
     const date = new Date(today);
-// because start from 0 that is why for example today  is 3 there for 0+3=3
+    // because start from 0 that is why for example today  is 3 there for 0+3=3
     date.setDate(today.getDate() + i);
 
     dates.push(
@@ -60,7 +61,7 @@ const DoctorDatailes = () => {
     });
   };
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationKey: ["booking"],
     mutationFn: async (user: IBookingUser) => {
       const { data } = await api.post<IBookingUser>(
@@ -79,6 +80,15 @@ const DoctorDatailes = () => {
       return data;
     },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      route("/MyAppoiment");
+      toast.success("Appointment Booked");
+    } else if (isError) {
+      toast.error("please try again");
+    }
+  }, [isSuccess,isError]);
   if (!sameCategory) {
     return <div>Loading...</div>;
   }

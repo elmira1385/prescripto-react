@@ -1,10 +1,10 @@
 import {  useState } from "react";
 import icon from "../../images/icon_header.svg";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../api/axios";
 
-interface IUser {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
@@ -25,6 +25,7 @@ interface IUserResponse {
 }
 const Header = () => {
   const [isOpenHeader, setIsOpenHeader] = useState(false);
+  const route=useNavigate()
   const [isOpenUserInformation, setIsOpenUserInformation] = useState(false);
   const { data, refetch } = useQuery({
     queryKey: ["getUser"],
@@ -74,12 +75,16 @@ const Header = () => {
           <div className="absolute  top-0 right-0 pt-14 text-base font-medium text-gray-600 z-60 ">
             <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
               <p className="hover:text-black cursor-pointer">My Profile</p>
-              <p className="hover:text-black cursor-pointer">My Appointments</p>
+              <p onClick={()=>{
+              route("/MyAppoiment")
+              setIsOpenUserInformation(false)
+              }} className="hover:text-black cursor-pointer">My Appointments</p>
               <p
                 onClick={() => {
                   localStorage.removeItem("token");
                   refetch();
                   setIsOpenUserInformation(false);
+                  route("/")
                 }}
                 className="hover:text-black cursor-pointer"
               >
