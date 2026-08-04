@@ -102,6 +102,7 @@ const MyAppoiment = () => {
           <div></div>
 
           <button
+          disabled={item.cancelled}
             onClick={() => {
               mutate({ appointmentId: item._id });
             }}

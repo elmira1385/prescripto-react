@@ -13,6 +13,7 @@ import Content from "./pages/Content.tsx";
 import { ToastContainer } from "react-toastify";
 import DoctorDatailes from "./pages/DoctorDatailes.tsx";
 import MyAppoiment from "./pages/MyAppoiment.tsx";
+import MyProfile from "./pages/Myprofile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/MyAppoiment",
         Component: MyAppoiment,
+      },
+      {
+        path: "/MyProfile",
+        Component: MyProfile,
       },
     ],
   },

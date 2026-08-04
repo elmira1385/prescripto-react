@@ -74,7 +74,10 @@ const Header = () => {
         {isOpenUserInformation && (
           <div className="absolute  top-0 right-0 pt-14 text-base font-medium text-gray-600 z-60 ">
             <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
-              <p className="hover:text-black cursor-pointer">My Profile</p>
+              <p onClick={()=>{
+              route("/MyProfile")
+              setIsOpenUserInformation(false)
+              }}  className="hover:text-black cursor-pointer">My Profile</p>
               <p onClick={()=>{
               route("/MyAppoiment")
               setIsOpenUserInformation(false)

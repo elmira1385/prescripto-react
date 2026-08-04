@@ -103,6 +103,7 @@ const DoctorDatailes = () => {
     }
     if (!token) {
       toast.error("please login or signup");
+      route("/Login")
       return;
     }
 
