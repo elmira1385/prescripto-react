@@ -19,7 +19,7 @@ export interface IUser {
   __v: number;
 }
 
-interface IUserResponse {
+export interface IUserResponse {
   success: boolean;
   userData: IUser;
 }

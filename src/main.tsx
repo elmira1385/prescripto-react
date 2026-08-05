@@ -13,7 +13,7 @@ import Content from "./pages/Content.tsx";
 import { ToastContainer } from "react-toastify";
 import DoctorDatailes from "./pages/DoctorDatailes.tsx";
 import MyAppoiment from "./pages/MyAppoiment.tsx";
-import MyProfile from "./pages/Myprofile.tsx";
+import MyProfile from "./pages/MyProfile.tsx";
 
 const router = createBrowserRouter([
   {
