@@ -74,7 +74,8 @@ const MyAppoiment = () => {
 
   const sortItem=[...data].sort((a,b)=>Number(a.cancelled)-Number(b.cancelled))
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 pt-8">
+      <p className="pb-3  text-lg font-medium text-gray-600 ">My appointments</p>
       {sortItem.map((item) => (
         <div key={item._id} className="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-4 border-b border-gray-400">
           <div>

@@ -1,15 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { IUser } from "../components/Ui/Header";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { IUserResponse } from "../components/Ui/Header";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from "../api/axios";
+import { toast } from "react-toastify";
 interface IEditUser {
   name: string;
   phone: string;
-  address: {
-    line1: string;
-    line2: string;
-  };
+  addressLine1: string;
+  addressLine2: string;
   gender: string;
   dob: string;
 }
@@ -17,23 +16,35 @@ const MyProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
-  const profile = queryClient.getQueryData<IUser>(["getUser"]);
+  const { data: profile } = useQuery({
+    queryKey: ["getUser"],
+    queryFn: async () => {
+      if (!token) {
+        return null;
+      }
+      const { data } = await api<IUserResponse>("/api/user/get-profile", {
+        headers: {
+          token: token,
+        },
+      });
+      return data.userData;
+    },
+  });
+
   const { register, handleSubmit, reset } = useForm<IEditUser>();
   useEffect(() => {
     if (profile) {
       reset({
         name: profile.name,
         phone: profile.phone,
-        address: {
-          line1: profile.address.line1,
-          line2: profile.address.line2,
-        },
+        addressLine1: profile.address.line1,
+        addressLine2: profile.address.line2,
         gender: profile.gender,
         dob: profile.dob,
       });
     }
   }, [profile, reset]);
-
+  console.log(profile?.address);
   const { mutate } = useMutation({
     mutationKey: ["update-profile"],
     mutationFn: async (user: IEditUser) => {
@@ -42,10 +53,10 @@ const MyProfile = () => {
         {
           name: user.name,
           phone: user.phone,
-          address: {
-            line1: user.address.line1,
-            line2: user.address.line2,
-          },
+          address: JSON.stringify({
+            line1: user.addressLine1,
+            line2: user.addressLine2,
+          }),
           gender: user.gender,
           dob: user.dob,
         },
@@ -61,8 +72,11 @@ const MyProfile = () => {
       queryClient.invalidateQueries({
         queryKey: ["getUser"],
       });
-
+      toast.success("profile is changed");
       setIsEditing(false);
+    },
+    onError: () => {
+      toast.error("please try again");
     },
   });
 
@@ -108,6 +122,7 @@ const MyProfile = () => {
             </div>
           </div>
           <button
+            className="border border-gray-500 px-6 py-1 rounded-full"
             type="button"
             onClick={() => {
               setIsEditing(true);
@@ -119,9 +134,11 @@ const MyProfile = () => {
       ) : (
         <form
           method="POST"
-          onSubmit={handleSubmit(({ name, phone, address, gender, dob }) => {
-            mutate({ name, phone, address, gender, dob });
-          })}
+          onSubmit={handleSubmit(
+            ({ name, phone, addressLine1, addressLine2, gender, dob }) => {
+              mutate({ name, phone, addressLine1, addressLine2, gender, dob });
+            },
+          )}
           className="flex flex-col gap-6 pt-10 items-start"
         >
           <div className="flex flex-col gap-4 ">
@@ -143,8 +160,16 @@ const MyProfile = () => {
             <div className="flex gap-4 text-sm">
               <p className="font-medium ">Address:</p>
 
-              <input type="text" {...register("address.line1")} />
-              <input type="text" {...register("address.line2")} />
+              <input
+                className="w-20"
+                type="text"
+                {...register("addressLine1")}
+              />
+              <input
+                className="w-20"
+                type="text"
+                {...register("addressLine2")}
+              />
             </div>
           </div>
           <div className="flex flex-col gap-4">
@@ -152,7 +177,7 @@ const MyProfile = () => {
             <div className="flex gap-4 text-sm">
               <p className="font-medium">Gender:</p>
 
-              <select {...register("gender")} className="border p-2">
+              <select  {...register("gender")}>
                 <option value="Not Selected">Not Selected</option>
 
                 <option value="Male">Male</option>
@@ -166,7 +191,12 @@ const MyProfile = () => {
               <input type="date" {...register("dob")} />
             </div>
           </div>
-          <button type="submit">save</button>
+          <button
+            className="border border-gray-500 px-6 py-1 rounded-full"
+            type="submit"
+          >
+            save
+          </button>
         </form>
       )}
     </>
