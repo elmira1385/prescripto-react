@@ -50,7 +50,7 @@ const Header = () => {
         <img width={150} src={icon} alt="icon" />
       </div>
       <div className="flex relative gap-2 justify-center items-center">
-        {data && (
+        {data ? (
           <button
             onClick={() => {
               setIsOpenUserInformation((prev) => !prev);
@@ -70,7 +70,9 @@ const Header = () => {
               <polyline id="primary" points="19 14 12 21 5 14"></polyline>
             </svg>
           </button>
-        )}
+        ):<button className="hidden sm:hidden md:hidden lg:inline-flex xl:inline-flex bg-primary text-white py-3 px-6 rounded-full text-sm">
+          Create account
+          </button>}
         {isOpenUserInformation && (
           <div className="absolute  top-0 right-0 pt-14 text-base font-medium text-gray-600 z-60 ">
             <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
@@ -103,6 +105,7 @@ const Header = () => {
         >
           {isOpenHeader ? (
             <svg
+              className="sm:inline-flex md:inline-flex lg:hidden xl:hidden"
               fill="#000000"
               width="30px"
               height="30px"
@@ -112,7 +115,7 @@ const Header = () => {
               <path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z" />
             </svg>
           ) : (
-            <svg
+            <svg className="sm:inline-flex md:inline-flex lg:hidden xl:hidden"
               fill="#000000"
               width="40px"
               height="40px"
@@ -127,7 +130,7 @@ const Header = () => {
       </div>
       {isOpenHeader && (
         <div
-          className={`fixed sm:inline-flex md:inline-flex lg:inline-flex xl:hidden  flex flex-col gap-6 items-center  z-50 bg-white  w-full h-full top-15  p-4 transition-all duration-300 ${isOpenHeader ? "right-0" : "-right-full"}`}
+          className={`fixed sm:inline-flex md:inline-flex lg:hidden xl:hidden  flex flex-col gap-6 items-center  z-50 bg-white  w-full h-full top-15  p-4 transition-all duration-300 ${isOpenHeader ? "right-0" : "-right-full"}`}
         >
           <ul className="flex flex-col justify-center items-center gap-6 *:font-bold  *:text-[16px] *:cursor-pointer *:px-4 *:py-2 *:rounded-md">
             <NavLink

@@ -6,7 +6,7 @@ import BookAppointment from '../components/Ui/BookAppointment'
 
 const Home = () => {
   return (
-    <div className='flex flex-col gap-20'>
+    <div className='flex flex-col gap-20 '>
       <Hero/>
       <FindbySpeciality/>
       <ListOfDoctors/>

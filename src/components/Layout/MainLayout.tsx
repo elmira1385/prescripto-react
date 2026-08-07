@@ -5,11 +5,11 @@ import Footer from '../Ui/Footer'
 
 const MainLayout = () => {
   return (
-    <>
+    <div className=' px-0 sm:px-30'>
     <Header/>
     <Outlet/>
     <Footer/>
-    </>
+    </div>
   )
 }
 
