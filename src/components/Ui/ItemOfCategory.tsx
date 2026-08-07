@@ -10,7 +10,7 @@ export interface IItemOfCategory{
 const ItemOfCategory = ({title,image,onClick}:IItemOfCategory) => {
   return (
     <div onClick={onClick}  className='flex flex-col gap-4 justify-center items-center'>
-     <img className='w-16' src={image} alt="" />
+     <img className='w-16 sm:w-18 md:w-19 lg:w-20 xl:w-22' src={image} alt="" />
      <p className='text-[12px]'>{title}</p>
     </div>
   )

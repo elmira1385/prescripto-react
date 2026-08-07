@@ -4,8 +4,8 @@ import hero from "../../images/hero.png";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col gap-8 justify-center  rounded-md p-4 pb-0 mt-4 bg-primary">
-      <div className="flex flex-col gap-6 justify-center items-center">
+    <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row gap-8 justify-center items-center lg:px-20 xl:px-20 rounded-md p-4 pb-0 mt-4 bg-primary">
+      <div className="flex flex-col  gap-6 justify-center items-center sm:items-center md:items-center lg:items-start xl:items-start">
         <p className="text-3xl pt-4 text-white font-semibold leading-tight md:leading-tight lg:leading-tight">
           Book Appointment
           <br /> With Trusted Doctors
@@ -36,7 +36,7 @@ const Hero = () => {
         </button>
       </div>
       <div>
-        <img src={hero} alt="" />
+        <img  src={hero} alt="" />
       </div>
     </div>
   );

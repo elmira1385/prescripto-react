@@ -21,11 +21,11 @@ const items: IBox[] = [
 ];
 const About = () => {
   return (
-    <div className="flex flex-col justify-center gap-4 items-center">
-      <div className="flex flex-col justify-center gap-6 items-center">
-        <p className="text-2xl text-gray-600 pt-8">
+    <div className="flex flex-col justify-center gap-4 sm:gap-14 items-center pt-14">
+        <p className="text-2xl text-gray-600 ">
           ABOUT <span className="text-gray-700 font-bold">US</span>
         </p>
+      <div className="flex flex-col justify-start gap-6 items-center  sm:flex-col md:flex-col lg:flex-row xl:flex-row">
         <img className="w-full md:max-w-90" src={aboutUs} alt="aboutUs" />
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600">
           <p>
@@ -51,11 +51,11 @@ const About = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center gap-6">
+      <div className="flex flex-col justify-center items-center gap-6 ">
         <p className="text-2xl text-gray-600 pt-8">
           WHY <span className="text-gray-700 font-bold place-self-start">CHOOSE US</span>
         </p>
-        <ul className="flex flex-col">
+        <ul className="flex flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row ">
        {items.map((i, index)=>(
          <TamplateOfAboutBoxes key={index} title={i.title} description={i.description}/>
        ))}

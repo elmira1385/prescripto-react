@@ -5,8 +5,7 @@ const FilterCategory = () => {
   const { setFilter, filter  ,isFilterOpen,setIsFilterOpen} = useFilter();
 
   return (
-    <div className="flex flex-col gap-4 i">
-      <p>Browse through the doctors specia</p>
+    <div className="flex flex-col gap-4 ">
       <button
         onClick={() => {
           setIsFilterOpen(!isFilterOpen);

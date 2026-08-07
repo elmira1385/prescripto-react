@@ -14,7 +14,7 @@ const ItemOfDoctors = ({ data }: IProps) => {
         route(`/${item._id}`)
         }}
           key={item._id}
-          className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer  transition-all duration-500"
+          className="border  border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer  transition-all duration-500"
         >
           <img className="bg-[#EAEFFF]" src={item.image} alt={item.name} />
           <div className="p-4">

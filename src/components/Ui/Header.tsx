@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import icon from "../../images/icon_header.svg";
 import { NavLink, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -25,7 +25,7 @@ export interface IUserResponse {
 }
 const Header = () => {
   const [isOpenHeader, setIsOpenHeader] = useState(false);
-  const route=useNavigate()
+  const route = useNavigate();
   const [isOpenUserInformation, setIsOpenUserInformation] = useState(false);
   const { data, refetch } = useQuery({
     queryKey: ["getUser"],
@@ -41,7 +41,6 @@ const Header = () => {
       });
       return data.userData;
     },
-   
   });
 
   return (
@@ -49,6 +48,46 @@ const Header = () => {
       <div>
         <img width={150} src={icon} alt="icon" />
       </div>
+      <ul className="uppercase hidden sm:hidden md:hidden lg:inline-flex xl:inline-flex justify-between items-center gap-10 font-semibold text-sm">
+        <NavLink
+          to="/"
+          end
+          onClick={() => setIsOpenHeader(false)}
+          className={({ isActive }) =>
+            isActive ? "border-b-2 border-b-primary" : ""
+          }
+        >
+          HOME
+        </NavLink>
+         <NavLink
+              to="/AllDoctors"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "border-b-2 border-b-primary" : ""
+              }
+            >
+              ALL Doctors
+            </NavLink>
+            <NavLink
+              to="/About"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "border-b-2 border-b-primary" : ""
+              }
+            >
+              ABOUT
+            </NavLink>
+            <NavLink
+              to="/Content"
+              onClick={() => setIsOpenHeader(false)}
+              className={({ isActive }) =>
+                isActive ? "border-b-2 border-b-primary" : ""
+              }
+            >
+              CONTENT
+            </NavLink>
+       
+      </ul>
       <div className="flex relative gap-2 justify-center items-center">
         {data ? (
           <button
@@ -70,26 +109,40 @@ const Header = () => {
               <polyline id="primary" points="19 14 12 21 5 14"></polyline>
             </svg>
           </button>
-        ):<button className="hidden sm:hidden md:hidden lg:inline-flex xl:inline-flex bg-primary text-white py-3 px-6 rounded-full text-sm">
-          Create account
-          </button>}
+        ) : (
+          <button onClick={()=>{
+            route("/Login")
+          }} className="hidden sm:hidden md:hidden lg:inline-flex xl:inline-flex bg-primary text-white py-3 px-6 rounded-full text-sm">
+            Create account
+          </button>
+        )}
         {isOpenUserInformation && (
           <div className="absolute  top-0 right-0 pt-14 text-base font-medium text-gray-600 z-60 ">
             <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
-              <p onClick={()=>{
-              route("/MyProfile")
-              setIsOpenUserInformation(false)
-              }}  className="hover:text-black cursor-pointer">My Profile</p>
-              <p onClick={()=>{
-              route("/MyAppoiment")
-              setIsOpenUserInformation(false)
-              }} className="hover:text-black cursor-pointer">My Appointments</p>
+              <p
+                onClick={() => {
+                  route("/MyProfile");
+                  setIsOpenUserInformation(false);
+                }}
+                className="hover:text-black cursor-pointer"
+              >
+                My Profile
+              </p>
+              <p
+                onClick={() => {
+                  route("/MyAppoiment");
+                  setIsOpenUserInformation(false);
+                }}
+                className="hover:text-black cursor-pointer"
+              >
+                My Appointments
+              </p>
               <p
                 onClick={() => {
                   localStorage.removeItem("token");
                   refetch();
                   setIsOpenUserInformation(false);
-                  route("/")
+                  route("/");
                 }}
                 className="hover:text-black cursor-pointer"
               >
@@ -115,7 +168,8 @@ const Header = () => {
               <path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z" />
             </svg>
           ) : (
-            <svg className="sm:inline-flex md:inline-flex lg:hidden xl:hidden"
+            <svg
+              className="sm:inline-flex md:inline-flex lg:hidden xl:hidden"
               fill="#000000"
               width="40px"
               height="40px"
